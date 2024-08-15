@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const Register = () => {
 
-    const {createUser} = useContext(AuthContext);
+    const {createUser, googleLogin} = useContext(AuthContext);
     const navigate = useNavigate()
 
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -31,6 +31,21 @@ const Register = () => {
     
     console.log(data);
 }
+
+
+const handleGoogleLogin = () => {
+    googleLogin()
+        .then(result => {
+            console.log(result.user);
+            toast.success('google login successful');
+            navigate(location?.state?.from || "/", { replace: true }); // Use navigate for redirection
+        })
+        .catch(error => {
+            console.error(error);
+            toast.error('Firebase google Login Problem');
+        });
+};
+
 
     return (
         <div>
@@ -81,7 +96,7 @@ const Register = () => {
 
                         
                         <div className="space-y-2">
-                    <button  className="btn w-full btn-outline lg:text-[18px] text-[15px] mt-4 "> <FcGoogle></FcGoogle>  Sign in with google</button>
+                    <button onClick={() => handleGoogleLogin()}  className="btn w-full btn-outline lg:text-[18px] text-[15px] mt-4 "> <FcGoogle></FcGoogle>  Sign in with google</button>
                     {/* <button onClick={() => handleGithubLogin()} className="btn btn-outline text-[18px] "> <FaGithub></FaGithub>  Sign in with Github</button> */}
                   </div>
 
